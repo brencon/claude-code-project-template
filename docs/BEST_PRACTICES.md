@@ -214,10 +214,36 @@ Claude is multimodal:
 - Use for error screenshots, design specs
 
 **For UI work, always include visual references:**
-- Use [V0.dev](https://v0.dev) design system for inspiration
+- Use [Dribbble](https://dribbble.com) for UI design inspiration
+- Use [V0.dev](https://v0.dev) design system for components
 - Pinterest has great app design inspiration
 - Screenshot and paste (Cmd+Ctrl+Shift+4 on Mac copies to clipboard)
-- Claude's default UI tends toward generic gradients - references help
+- Claude's default UI tends toward purple gradients - references help
+
+### Front-End Design Skill
+Install the front-end design skill for dramatically better UI:
+
+```bash
+# Add marketplace and install
+/add-skill-marketplace https://skills.anthropic.com
+/install-skill front-end-design
+```
+
+**Usage:**
+```
+Use the front-end design skill to improve the design of this page.
+```
+
+Or with a reference:
+```
+Use the front-end design skill to redesign this following the attached screenshot.
+[paste screenshot from Dribbble]
+```
+
+**The "Black, White, and One Color" Rule:**
+Start every design with black, white, and one accent color. Add more colors only after establishing this foundation.
+
+See [docs/UI_DESIGN_GUIDE.md](UI_DESIGN_GUIDE.md) for comprehensive UI/design guidance.
 
 ### Extended Thinking
 For complex problems, add "think hard" to prompts:

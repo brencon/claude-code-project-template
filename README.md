@@ -42,7 +42,8 @@ A comprehensive, best-practice template for AI-assisted software development wit
 │   ├── architecture/          # System design documentation
 │   ├── decisions/             # Architecture Decision Records
 │   ├── references/            # External references and research
-│   └── BEST_PRACTICES.md      # Claude Code best practices guide
+│   ├── BEST_PRACTICES.md      # Claude Code best practices guide
+│   └── UI_DESIGN_GUIDE.md     # UI/design skill and techniques
 ├── CLAUDE.md                  # Primary instructions for Claude
 ├── .gitignore                 # Comprehensive gitignore
 └── README.md                  # This file
@@ -134,6 +135,14 @@ See [docs/BEST_PRACTICES.md](docs/BEST_PRACTICES.md) for comprehensive guidance 
 - Workflow optimization
 - Advanced techniques
 - Anti-patterns to avoid
+
+See [docs/UI_DESIGN_GUIDE.md](docs/UI_DESIGN_GUIDE.md) for:
+
+- Front-end design skill installation
+- Design reference sources (Dribbble, V0.dev, Pinterest)
+- The "black, white, and one color" rule
+- Creating design systems
+- Avoiding generic AI aesthetics
 
 ## Philosophy
 

@@ -24,23 +24,27 @@ A comprehensive, best-practice template for AI-assisted software development wit
 
 ```
 ├── .claude/
-│   ├── commands/           # Custom slash commands
-│   │   ├── plan.md        # /plan - Plan before implementing
-│   │   ├── debug.md       # /debug - Investigate issues
-│   │   ├── review.md      # /review - Code review checklist
-│   │   ├── test.md        # /test - Generate tests
-│   │   ├── refactor.md    # /refactor - Safe refactoring
-│   │   └── commit.md      # /commit - Structured commits
-│   ├── settings.json       # Project settings (version controlled)
-│   └── settings.local.json # Local settings (gitignored)
+│   ├── commands/              # Custom slash commands
+│   │   ├── plan.md           # /plan - Plan before implementing
+│   │   ├── debug.md          # /debug - Investigate issues
+│   │   ├── review.md         # /review - Code review checklist
+│   │   ├── test.md           # /test - Generate tests
+│   │   ├── refactor.md       # /refactor - Safe refactoring
+│   │   └── commit.md         # /commit - Structured commits
+│   ├── settings.json          # Project settings (version controlled)
+│   ├── settings.example.json  # Example settings with hooks
+│   └── settings.local.json    # Local settings (gitignored)
+├── .github/
+│   └── workflows/
+│       └── claude-code-review.yaml.example  # Auto PR review setup
 ├── docs/
-│   ├── architecture/       # System design documentation
-│   ├── decisions/          # Architecture Decision Records
-│   ├── references/         # External references and research
-│   └── BEST_PRACTICES.md   # Claude Code best practices guide
-├── CLAUDE.md               # Primary instructions for Claude
-├── .gitignore              # Comprehensive gitignore
-└── README.md               # This file
+│   ├── architecture/          # System design documentation
+│   ├── decisions/             # Architecture Decision Records
+│   ├── references/            # External references and research
+│   └── BEST_PRACTICES.md      # Claude Code best practices guide
+├── CLAUDE.md                  # Primary instructions for Claude
+├── .gitignore                 # Comprehensive gitignore
+└── README.md                  # This file
 ```
 
 ## Included Slash Commands
@@ -95,6 +99,29 @@ Edit `.claude/settings.json` to pre-approve safe operations:
   }
 }
 ```
+
+See `.claude/settings.example.json` for comprehensive examples including hooks.
+
+### Hooks Configuration
+Add hooks to run commands before/after Claude's tool use:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [{ "type": "command", "command": "npx prettier --write $CLAUDE_FILE_PATH" }]
+      }
+    ]
+  }
+}
+```
+
+### GitHub PR Review
+1. Run `/install-github-app` in Claude Code
+2. Rename `.github/workflows/claude-code-review.yaml.example` to `.yaml`
+3. Customize the review prompt for your needs
 
 ## Best Practices
 

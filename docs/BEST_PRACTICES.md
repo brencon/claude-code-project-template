@@ -31,6 +31,8 @@ Think of Claude Code as a skilled terminal-native coworker who:
 2. Home directory (`~/.claude/CLAUDE.md`) - personal defaults
 3. Subdirectories - read by Claude when relevant, not auto-loaded
 
+**Hierarchical Structure**: CLAUDE.md files can be nested. Place them in subdirectories for module-specific instructions. The most specific (most nested) file takes priority when Claude is working in that directory.
+
 **Content Guidelines**:
 - Keep it focused and concise
 - Update when switching model versions
@@ -52,6 +54,13 @@ Specific conventions for this project
 High-level structure and patterns
 ```
 
+**Quick Memory Addition**: Use `#` to quickly add to memory:
+```
+# always use TypeScript strict mode
+# prefer functional components over class components
+```
+Claude will save to the most relevant CLAUDE.md file.
+
 ### Permission Management
 
 **Speed up workflows by pre-approving safe commands**:
@@ -60,19 +69,72 @@ High-level structure and patterns
   "permissions": {
     "allow": [
       "Read(*)",
+      "Glob(*)",
+      "Grep(*)",
+      "Bash(git status:*)",
       "Bash(npm test:*)",
-      "Bash(npm run lint:*)",
-      "Bash(git status:*)"
+      "Bash(npm run lint:*)"
     ]
   }
 }
 ```
 
-**Use Shift+Tab** for auto-accept mode when in flow.
+**Permission Modes**:
+- **Default**: Asks permission for writes and bash commands
+- **Shift+Tab**: Auto-accept mode for current session
+- **`--dangerously-skip-permissions`**: Skip all permission checks (use with caution)
+
+See `.claude/settings.example.json` for comprehensive permission patterns.
+
+### Hooks
+
+Hooks run commands before/after Claude's tool use:
+
+**PreToolUse**: Runs before tool executes (return non-zero to block)
+**PostToolUse**: Runs after tool executes (good for validation)
+
+**Common patterns**:
+```json
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [{ "type": "command", "command": "npx prettier --write $CLAUDE_FILE_PATH" }]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit",
+        "hooks": [{ "type": "command", "command": "npx tsc --noEmit" }]
+      }
+    ]
+  }
+}
+```
 
 ---
 
 ## Workflow Best Practices
+
+### Clear Aggressively
+**Every time you start something new, use `/clear`.**
+
+Don't let context build up with irrelevant history:
+- Compaction runs an LLM call to summarize (takes time)
+- Old context can confuse new tasks
+- Start fresh for unrelated work
+
+**When to use each**:
+- `/clear`: Starting new task, switching context
+- `/compact`: Continuing related work, need history
+
+### Message Queuing
+Queue multiple prompts while Claude works:
+- Type your next prompt while Claude is busy
+- Claude intelligently runs them when appropriate
+- Won't auto-run if feedback is needed
+- Great for batching related tasks
 
 ### Planning First
 Instead of diving straight into implementation:
@@ -91,20 +153,24 @@ Instead of diving straight into implementation:
 4. Commit when tests pass
 5. Repeat
 
-### Context Management
-
-**Watch the context window**:
-- `/clear` - Start fresh (keeps CLAUDE.md)
-- `/compact` - Summarize and continue
-
-**When to use each**:
-- `/compact`: Continuing related work, need history
-- `/clear`: Switching to unrelated task
-
 ### Using the Todo List
 - Watch for items that don't make sense
 - Press `Escape` to redirect if Claude is off track
 - Use todos for visibility into Claude's plan
+
+---
+
+## Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `Escape` | Stop Claude (not Ctrl+C!) |
+| `Escape` twice | Jump to previous messages |
+| `Shift+Tab` | Auto-accept mode |
+| `Ctrl+V` | Paste images (Mac: not Cmd+V) |
+| `Shift+drag` | Drag files into terminal (VS Code) |
+| `Up arrow` | Access past chats (including prior sessions) |
+| `Shift+Enter` | New line (after terminal setup) |
 
 ---
 
@@ -115,15 +181,16 @@ Run 2-4 instances for parallel work:
 - Different features in different terminals
 - Use shared markdown files for coordination
 - Example: Write to `ticket.md` for context passing
+- Works on different parts of codebase/different files
 
 ### Escape Key Mastery
 - **Single Escape**: Stop and redirect
-- **Double Escape**: Jump back in conversation history
+- **Double Escape**: Jump back in conversation history, see previous messages
 - Know when to escape vs. let Claude figure it out
 
 ### Screenshot-Driven Development
 Claude is multimodal:
-- Paste screenshots for visual debugging
+- Paste screenshots for visual debugging (use Ctrl+V, not Cmd+V on Mac)
 - Reference mock images: "Build this UI from mock.png"
 - Use for error screenshots, design specs
 
@@ -133,6 +200,55 @@ For complex problems, add "think hard" to prompts:
 "Think hard about this bug. Search the codebase,
 understand the data flow, and explain what's causing it."
 ```
+
+### Custom Slash Commands
+Create `.claude/commands/[name].md`:
+```markdown
+# Command Title
+
+Do something with: $ARGUMENTS
+
+## Instructions
+1. Step one
+2. Step two
+```
+
+Use subfolders: `.claude/commands/builder/plugin.md` → `/builder:plugin`
+
+---
+
+## GitHub Integration
+
+### Automatic PR Code Review
+1. Run `/install-github-app` in Claude Code
+2. Customize `.github/workflows/claude-code-review.yaml`
+
+**Recommended prompt** (focused on what matters):
+```yaml
+prompt: |
+  Review for bugs and security issues only.
+  Do NOT comment on style, naming, or refactoring.
+  Be concise. If code looks good, just say "LGTM".
+```
+
+### PR Workflow
+Claude can:
+- Review PRs and address comments
+- Create PRs with descriptions
+- Push commits addressing feedback
+
+---
+
+## Model Selection
+
+### Default Behavior
+- Uses Opus until 50% usage, then switches to Sonnet
+- Good for cost efficiency
+
+### Manual Selection
+- `/model` - Check/change current model
+- Opus: Better quality, not noticeably slower than Sonnet 4
+- Sonnet: More cost-efficient, still very capable
 
 ---
 
@@ -170,8 +286,8 @@ Help me resolve them and continue."
 ✅ Trust that CLAUDE.md is loaded and followed
 
 ### Context Bloat
-❌ Letting context fill up without compacting
-✅ Regular `/compact` for long sessions
+❌ Letting context fill up without clearing
+✅ `/clear` for new tasks, `/compact` only when you need history
 
 ### Micro-Management
 ❌ Approving every single file read
@@ -185,14 +301,28 @@ Help me resolve them and continue."
 ❌ "Just implement it, we'll test later"
 ✅ "Implement with tests, verify they pass"
 
+### Waiting on Idle Agents
+❌ Coming back to find Claude waiting for permission
+✅ Use `--dangerously-skip-permissions` or configure permissions
+
+---
+
+## Large Codebase Tips
+
+Claude Code handles large codebases exceptionally well:
+- No issues with very large files (tested with 18,000+ line files)
+- Excellent at navigating complex codebases
+- Good at understanding relationships between components
+- Rarely gets stuck compared to other tools
+
 ---
 
 ## Sources
 
 This document synthesizes best practices from:
-- Anthropic official documentation
-- Claude Code team recommendations
+- Anthropic official documentation and talks
+- Claude Code team recommendations (Cal's May 2025 talk)
+- Builder.io tips and tricks
 - Community patterns and experiences
 
-*Last updated: [DATE]*
-*Claude Code version: [VERSION]*
+*Last updated: December 2024*

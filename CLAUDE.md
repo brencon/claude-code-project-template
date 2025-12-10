@@ -34,12 +34,19 @@ Describe the high-level architecture:
 │   ├── commands/         # Custom slash commands
 │   ├── settings.json     # Project-level settings (version controlled)
 │   └── settings.local.json # Local settings (gitignored)
+├── .github/
+│   └── workflows/        # GitHub Actions (including Claude code review)
 ├── docs/                 # Project documentation
 │   └── references/       # External references and research
 ├── src/                  # Source code
+│   └── [module]/CLAUDE.md  # Optional: module-specific instructions
 ├── tests/                # Test files
 └── CLAUDE.md            # This file - Claude's primary instructions
 ```
+
+> **Note**: CLAUDE.md files are hierarchical. You can place them in subdirectories
+> for module-specific instructions. The most specific (most nested) file takes
+> priority when Claude is working in that directory.
 
 ## Development Commands
 

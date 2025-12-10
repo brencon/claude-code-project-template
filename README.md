@@ -43,7 +43,8 @@ A comprehensive, best-practice template for AI-assisted software development wit
 │   ├── decisions/             # Architecture Decision Records
 │   ├── references/            # External references and research
 │   ├── BEST_PRACTICES.md      # Claude Code best practices guide
-│   └── UI_DESIGN_GUIDE.md     # UI/design skill and techniques
+│   ├── UI_DESIGN_GUIDE.md     # UI/design skill and techniques
+│   └── SKILLS_GUIDE.md        # Building skills and digital employees
 ├── CLAUDE.md                  # Primary instructions for Claude
 ├── .gitignore                 # Comprehensive gitignore
 └── README.md                  # This file
@@ -143,6 +144,13 @@ See [docs/UI_DESIGN_GUIDE.md](docs/UI_DESIGN_GUIDE.md) for:
 - The "black, white, and one color" rule
 - Creating design systems
 - Avoiding generic AI aesthetics
+
+See [docs/SKILLS_GUIDE.md](docs/SKILLS_GUIDE.md) for:
+
+- Building specialized "digital employees"
+- Skills vs Projects vs Sub-Agents
+- Creating deterministic workflows with scripts
+- The context rot problem and how skills solve it
 
 ## Philosophy
 

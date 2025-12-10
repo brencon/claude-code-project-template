@@ -266,6 +266,34 @@ Do something with: $ARGUMENTS
 
 Use subfolders: `.claude/commands/builder/plugin.md` → `/builder:plugin`
 
+### Claude Skills
+Skills are **specialized automated workflows** that:
+- Load context only when relevant (avoiding context bloat)
+- Can run scripts for deterministic calculations
+- Are repeatable and consistent
+
+**Installing Skills:**
+```bash
+/add-skill-marketplace https://skills.anthropic.com
+/install-skill [skill-name]
+```
+
+**Using Skills:**
+```
+Use the [skill-name] skill to [task description].
+```
+
+**Key Skills:**
+- **Artifact Builder**: Create functional web apps
+- **Skill Creator**: Create new skills
+- **Front-End Design**: Better UI design
+
+**When to use skills vs sub-agents:**
+- Skills: Repeatable specialized tasks, need deterministic output
+- Sub-agents: Complex parallel work, breaking down large tasks
+
+See [docs/SKILLS_GUIDE.md](SKILLS_GUIDE.md) for building custom skills and "digital employees."
+
 ---
 
 ## GitHub Integration

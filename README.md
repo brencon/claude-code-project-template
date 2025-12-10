@@ -4,21 +4,24 @@ A comprehensive, best-practice template for AI-assisted software development wit
 
 ## Quick Start
 
-1. **Fork or clone this template**
+1. **Use this template** - Click "Use this template" on GitHub, or:
    ```bash
-   git clone https://github.com/[YOUR_USERNAME]/claude-code-project-template.git my-project
+   git clone https://github.com/brencon/claude-code-project-template.git my-project
    cd my-project
+   rm -rf .git && git init
    ```
 
-2. **Customize CLAUDE.md**
-   - Update project overview
-   - Add your build/test/lint commands
-   - Define your code style conventions
+2. **Customize CLAUDE.md** - Update project overview, commands, and conventions
 
 3. **Start Claude Code**
    ```bash
    claude
    ```
+
+**New to this template?** See the comprehensive [Getting Started Guide](docs/GETTING_STARTED.md) for:
+- Choosing between template, fork, or clone approaches
+- Step-by-step customization checklist
+- How to sync upstream updates when the template improves
 
 ## Template Structure
 

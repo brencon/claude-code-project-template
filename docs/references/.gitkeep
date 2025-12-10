@@ -1,0 +1,6 @@
+# References Directory
+
+Store external references, whitepapers, and research materials here.
+These documents provide Claude with additional context when needed.
+
+Reference from CLAUDE.md using: @docs/references/[filename]

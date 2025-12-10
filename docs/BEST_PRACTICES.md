@@ -61,6 +61,28 @@ High-level structure and patterns
 ```
 Claude will save to the most relevant CLAUDE.md file.
 
+### D.R.Y. - Don't Repeat Yourself
+
+**Build a command library** for repetitive prompts:
+- Creating API endpoints with your middleware pattern
+- Running linter and fixing all errors
+- Generating boilerplate with your conventions
+
+Organize commands into subdirectories as your library grows:
+```
+.claude/commands/
+├── api/
+│   ├── endpoint.md
+│   └── middleware.md
+├── testing/
+│   └── coverage.md
+└── deploy/
+    └── staging.md
+```
+
+**Useful command repos to explore:**
+- Search GitHub for "claude code commands" for community libraries
+
 ### Permission Management
 
 **Speed up workflows by pre-approving safe commands**:
@@ -202,6 +224,27 @@ Run 2-4 instances for parallel work:
 - Example: Write to `ticket.md` for context passing
 - Works on different parts of codebase/different files
 
+### Sub-Agents: Tasks, Not Roles
+
+**What doesn't work well:**
+- Assigning roles (frontend dev, designer, product manager)
+- Expecting autonomous brainstorming like humans
+
+**What works well - define agents for specific tasks:**
+- Code cleanup and optimization
+- Documentation generation
+- Research/data gathering from web
+- UI/UX review (with Playwright MCP)
+
+**Creating sub-agents:**
+```
+/agents → Create new agent → Project/Personal → Generate with Claude → Describe task → Set permissions → Save
+```
+
+Invoke with `@agent-name` or natural language.
+
+**Why this works:** Each sub-agent gets its own context window, reducing pollution of the main context. They're great for offloading specific tasks while maintaining quality.
+
 ### Escape Key Mastery
 - **Single Escape**: Stop and redirect
 - **Double Escape**: Jump back in conversation history, see previous messages
@@ -294,6 +337,19 @@ Use the [skill-name] skill to [task description].
 
 See [docs/SKILLS_GUIDE.md](SKILLS_GUIDE.md) for building custom skills and "digital employees."
 
+### Plugins: Clone Entire Setups
+Plugins bundle commands, agents, MCP servers, and skills into shareable packages:
+
+```bash
+# Add a plugin marketplace
+/add-plugin-marketplace [url]
+
+# Install plugins from marketplace
+/plugins
+```
+
+This lets you clone a power user's entire workflow with a single command.
+
 ---
 
 ## GitHub Integration
@@ -349,6 +405,18 @@ Select Haiku model (`/model` → Haiku) for a powerful cost-saving approach:
 - Need custom integrations
 - CLI doesn't exist or is limited
 - Need structured data exchange
+
+### Recommended MCP Servers
+
+| Server | Purpose | Usage |
+|--------|---------|-------|
+| **Context7** | Up-to-date library docs | "use context7" in prompts |
+| **Supabase** | Database queries, migrations | Direct DB access |
+| **Playwright** | Browser automation, DOM inspection | Front-end debugging |
+| **Chrome DevTools** | Console logs, debugging | Front-end testing |
+| **Stripe** | Payment integration | Billing features |
+
+**Context7 is especially valuable** - solves the "outdated training data" problem by fetching latest documentation for popular libraries.
 
 ### Git Integration
 Claude excels at:
@@ -442,6 +510,14 @@ This compounds: if you're productive during the 80% wait time, you're effectivel
 ❌ Coming back to find Claude waiting for permission
 ✅ Use `--dangerously-skip-permissions` or configure permissions
 
+### Letting AI Make You Lazy
+❌ Skipping code review for AI-generated code
+✅ Review for security, performance, error handling before production
+
+**Garbage in = garbage out**: If you can't write a clear prompt, you don't know what you want. The AI definitely won't either.
+
+**AI generates code, but humans own it**: Start a new session asking Claude to review the files it touched. Speed means nothing if your app is buggy or insecure.
+
 ---
 
 ## Large Codebase Tips
@@ -481,6 +557,9 @@ This document synthesizes best practices from:
 - Claude Code team recommendations (Cal's May 2025 talk)
 - Builder.io tips and tricks
 - Alex Finn's lessons learned (extensive daily usage)
+- 800+ hours practitioner experience (sub-agents, MCP servers, plugins)
+- Amir's digital employees tutorial (Claude Skills)
+- Chris's front-end design skill demo
 - Community patterns and experiences
 
 *Last updated: December 2024*

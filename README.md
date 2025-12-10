@@ -182,7 +182,7 @@ Contributions welcome! Please:
 
 ## License
 
-[Choose your license]
+MIT License - see [LICENSE](LICENSE) for details.
 
 ---
 

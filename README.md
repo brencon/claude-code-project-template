@@ -25,6 +25,7 @@ A comprehensive, best-practice template for AI-assisted software development wit
 ```
 ├── .claude/
 │   ├── commands/              # Custom slash commands
+│   │   ├── brainstorm.md     # /brainstorm - Explore options first
 │   │   ├── plan.md           # /plan - Plan before implementing
 │   │   ├── debug.md          # /debug - Investigate issues
 │   │   ├── review.md         # /review - Code review checklist
@@ -51,6 +52,7 @@ A comprehensive, best-practice template for AI-assisted software development wit
 
 | Command | Purpose |
 |---------|---------|
+| `/brainstorm [idea]` | Explore options before committing to an approach |
 | `/plan [feature]` | Create implementation plan before coding |
 | `/debug [issue]` | Systematic issue investigation |
 | `/review [file/path]` | Code review with checklist |
@@ -137,11 +139,11 @@ See [docs/BEST_PRACTICES.md](docs/BEST_PRACTICES.md) for comprehensive guidance 
 
 This template embodies key principles:
 
-1. **Planning First**: Think before coding
-2. **Test-Driven**: Verify behavior with tests
-3. **Incremental Changes**: Small steps, frequent commits
-4. **Context Management**: Keep Claude informed but not overwhelmed
-5. **Human in the Loop**: Review, redirect, refine
+1. **Keep It Simple**: Claude Code works out of the box. Don't over-engineer.
+2. **Brainstorm → Plan → Execute**: Think before coding, get options, then implement.
+3. **Test-Driven**: Verify behavior with tests.
+4. **Minimal Changes**: Only touch what needs to change. Simple > clever.
+5. **Claude as Partner**: Treat Claude as a creative collaborator, not just a code generator.
 
 ## Sources
 

@@ -136,15 +136,34 @@ Queue multiple prompts while Claude works:
 - Won't auto-run if feedback is needed
 - Great for batching related tasks
 
-### Planning First
-Instead of diving straight into implementation:
+### Brainstorm → Plan → Execute
+The most effective workflow has three phases:
+
+**1. Brainstorm** (optional but powerful):
+```
+"I want to add a folder system. What are different options for designing this?
+What are different cool features we could add?"
+```
+Bounce ideas off Claude before committing to an approach.
+
+**2. Plan** (Shift+Tab twice):
+```
+"Perfect, implement option 3 please."
+```
+Let Sonnet create a detailed plan.
+
+**3. Execute**:
+Approve the plan and let Claude implement.
+
+### Simple Prompts Win
+**Prompt engineering is overrated.** The models are smart enough.
 
 ```
-❌ "Fix the login bug"
-✅ "Search the codebase for the login implementation, understand
-    how authentication works, and propose 2-3 options for fixing
-    the bug. Don't start coding yet."
+❌ Complex structured prompts with context/UI/database sections
+✅ "I want a folder system in the app so I can put entries into folders"
 ```
+
+Just tell Claude what you want. In plan mode, it figures out the context.
 
 ### Test-Driven Development
 1. Write or verify tests exist
@@ -193,6 +212,12 @@ Claude is multimodal:
 - Paste screenshots for visual debugging (use Ctrl+V, not Cmd+V on Mac)
 - Reference mock images: "Build this UI from mock.png"
 - Use for error screenshots, design specs
+
+**For UI work, always include visual references:**
+- Use [V0.dev](https://v0.dev) design system for inspiration
+- Pinterest has great app design inspiration
+- Screenshot and paste (Cmd+Ctrl+Shift+4 on Mac copies to clipboard)
+- Claude's default UI tends toward generic gradients - references help
 
 ### Extended Thinking
 For complex problems, add "think hard" to prompts:
@@ -250,6 +275,13 @@ Claude can:
 - Opus: Better quality, not noticeably slower than Sonnet 4
 - Sonnet: More cost-efficient, still very capable
 
+### Cost-Efficient Strategy: Haiku for Implementation
+Select Haiku model (`/model` → Haiku) for a powerful cost-saving approach:
+- **Sonnet still handles planning** (Shift+Tab twice for plan mode)
+- **Haiku handles implementation** (execution of the plan)
+- Works well because detailed plans don't need the smartest model to execute
+- Significant token/credit savings with minimal quality loss
+
 ---
 
 ## Integration Tips
@@ -276,6 +308,57 @@ Tell Claude about sticky situations:
 "I'm in the middle of a rebase with conflicts.
 Help me resolve them and continue."
 ```
+
+---
+
+## The "Keep It Simple" Philosophy
+
+**Claude Code works out of the box for 99.9% of use cases.**
+
+### You Probably Don't Need
+- 40 custom sub-agents
+- 20 MCP servers
+- 30 custom slash commands
+- Complex prompt engineering templates
+
+### What Actually Matters
+- A good CLAUDE.md with your project's commands and patterns
+- Clear, simple prompts telling Claude what you want
+- Plan mode for significant changes
+- Screenshots for UI work
+
+### The Models Are Smart
+Sonnet 4.5 can:
+- Find documentation on its own (even for brand-new APIs)
+- Understand your codebase structure
+- Figure out context without elaborate prompts
+- Call sub-agents automatically when needed
+
+Don't over-engineer your setup. Start simple, add complexity only when needed.
+
+---
+
+## Productive Downtime
+
+**80% of vibe coding is waiting.** Use it wisely.
+
+### Don't Waste Wait Time
+❌ Scrolling social media
+❌ Playing games
+❌ Context-switching to unrelated work
+
+### Productive Alternatives
+✅ **Have a second AI chat open** as your "co-pilot/CEO/product manager"
+- Brainstorm features and roadmap
+- Plan marketing and launch strategy
+- Think through architecture decisions
+- Get advice on non-coding decisions
+
+✅ **Queue your next prompts** while Claude works
+
+✅ **Review Claude's todo list** to catch issues early
+
+This compounds: if you're productive during the 80% wait time, you're effectively 5x more productive than someone who doom-scrolls.
 
 ---
 
@@ -317,12 +400,33 @@ Claude Code handles large codebases exceptionally well:
 
 ---
 
+## Treat Claude as a Creative Partner
+
+Claude isn't just a code generator - it's a thinking partner.
+
+### Before Coding, Brainstorm
+```
+"I want to add X feature. What are different options for designing this?
+What are different cool features we could add?"
+```
+
+### Ask for Opinions
+- "What do you think about this approach?"
+- "What would you change?"
+- "What are the tradeoffs?"
+
+### Let Claude Surprise You
+Claude often suggests approaches you hadn't considered. The tag-based system vs. folders example: sometimes the AI's alternative is better than your original idea.
+
+---
+
 ## Sources
 
 This document synthesizes best practices from:
 - Anthropic official documentation and talks
 - Claude Code team recommendations (Cal's May 2025 talk)
 - Builder.io tips and tricks
+- Alex Finn's lessons learned (extensive daily usage)
 - Community patterns and experiences
 
 *Last updated: December 2024*

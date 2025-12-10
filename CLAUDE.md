@@ -248,11 +248,26 @@ For database schema, see: @docs/schema.md
 
 ---
 
-## Notes for Claude
+## Rules for Claude
 
 <!--
-Special instructions for Claude Code behavior in this project.
+These rules improve Claude's performance significantly.
+Based on extensive real-world usage patterns.
 -->
+
+### Core Principles
+
+1. **Think first, code second**: Before any task, slow down. Read relevant files in the codebase. Build a mental model. Create a to-do list for yourself.
+
+2. **Explain before changing**: Stop and explain your reasoning before making each change. This helps both of us understand the approach.
+
+3. **Keep changes minimal**: Make every task and code change as simple as possible. Only touch the files and code necessary to complete the task.
+
+4. **No lazy shortcuts**: Do not take shortcuts. Do not be lazy. If context is getting long, stay focused - don't hallucinate or skip steps.
+
+5. **Fix root causes**: No temporary fixes or band-aids. Every fix should address the root cause of the problem.
+
+6. **Simplicity over cleverness**: Don't overthink. Don't over-engineer. Don't write more code than necessary. Simple, readable code wins.
 
 ### Before Making Changes
 1. Search the codebase to understand existing patterns

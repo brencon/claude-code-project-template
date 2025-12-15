@@ -27,7 +27,10 @@
       "// Python projects",
       "// Bash(pytest:*)",
       "// Bash(python -m mypy:*)",
-      "// Bash(ruff check:*)"
+      "// Bash(ruff check:*)",
+
+      "// LLM Council (optional) - consult multiple AI models",
+      "// Bash(python scripts/llm-council/council.py:*)"
     ],
     "deny": [
       "// Dangerous operations to always block",

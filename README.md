@@ -47,8 +47,12 @@ A comprehensive, best-practice template for AI-assisted software development wit
 │   ├── references/            # External references and research
 │   ├── BEST_PRACTICES.md      # Claude Code best practices guide
 │   ├── UI_DESIGN_GUIDE.md     # UI/design skill and techniques
-│   └── SKILLS_GUIDE.md        # Building skills and digital employees
+│   ├── SKILLS_GUIDE.md        # Building skills and digital employees
+│   └── LLM_COUNCIL_GUIDE.md   # Multi-model advisory board
+├── scripts/
+│   └── llm-council/           # LLM Council (optional)
 ├── CLAUDE.md                  # Primary instructions for Claude
+├── .env.example               # Environment variable template
 ├── .gitignore                 # Comprehensive gitignore
 └── README.md                  # This file
 ```
@@ -64,6 +68,8 @@ A comprehensive, best-practice template for AI-assisted software development wit
 | `/test [target]` | Generate comprehensive tests |
 | `/refactor [target]` | Safe, test-verified refactoring |
 | `/commit` | Create well-structured commits |
+| `/council [question]` | Consult LLM Council for decisions (optional) |
+| `/council-config` | Check LLM Council configuration |
 
 ## Customization Guide
 
@@ -154,6 +160,14 @@ See [docs/SKILLS_GUIDE.md](docs/SKILLS_GUIDE.md) for:
 - Skills vs Projects vs Sub-Agents
 - Creating deterministic workflows with scripts
 - The context rot problem and how skills solve it
+
+See [docs/LLM_COUNCIL_GUIDE.md](docs/LLM_COUNCIL_GUIDE.md) for:
+
+- Multi-model advisory board for decisions
+- BYOK (Bring Your Own Keys) configuration
+- Three-stage deliberation process
+- Cost optimization strategies
+- Based on [karpathy/llm-council](https://github.com/karpathy/llm-council)
 
 ## Philosophy
 

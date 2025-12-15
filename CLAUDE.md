@@ -286,3 +286,54 @@ Based on extensive real-world usage patterns.
 - Search for similar patterns in the codebase
 - Check docs/ for additional context
 - Ask for clarification rather than guessing
+
+---
+
+## LLM Council (Optional)
+
+This template includes an optional **LLM Council** feature - an "agentic advisory board" that consults multiple AI models for decision-making.
+
+### When to Use the Council
+- **Architecture decisions**: REST vs GraphQL, microservices vs monolith
+- **Technology choices**: Database selection, caching strategies
+- **Plan evaluation**: Review implementation plans before executing
+- **Tie-breaking**: When multiple valid approaches exist
+
+### How to Invoke
+
+**Slash command**:
+```
+/council Should we use PostgreSQL or MongoDB for this use case?
+```
+
+**Natural language**:
+```
+I'm torn between these approaches. Can you consult the council?
+```
+
+**Check configuration**:
+```
+/council-config
+```
+
+### Setup Required
+
+1. Set API keys in `.env` (at least 2 providers):
+   - `ANTHROPIC_API_KEY`
+   - `OPENAI_API_KEY`
+   - `GOOGLE_AI_API_KEY`
+   - `XAI_API_KEY`
+
+2. Install dependencies:
+   ```bash
+   pip install -r scripts/llm-council/requirements.txt
+   ```
+
+3. Optionally customize `scripts/llm-council/config.yaml`
+
+### Council Modes
+- `quick`: Fast responses only (cheapest)
+- `full`: Complete deliberation with peer review (most thorough)
+- `vote`: Focus on ranking options
+
+See `docs/LLM_COUNCIL_GUIDE.md` for detailed documentation.

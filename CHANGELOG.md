@@ -14,10 +14,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - TypeScript + React (frontend)
   - Python + FastAPI (backend)
   - Node.js + Express (backend)
+- Test example files for TypeScript, Python, and JavaScript
+- Expanded troubleshooting section with 14 common issues and solutions
+- Performance expectations section in LLM Council guide (timing, optimization)
 - This CHANGELOG file
 
 ### Fixed
 - Orphaned documentation references in CLAUDE.md (api.md, schema.md)
+- Clarified settings.local.json purpose (gitignored, auto-populated)
 
 ## [1.1.0] - 2025-12-15
 

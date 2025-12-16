@@ -245,6 +245,52 @@ council:
 
 ---
 
+## Performance Expectations
+
+### Response Times by Mode
+
+| Mode | Typical Time | API Calls | Best For |
+|------|--------------|-----------|----------|
+| `quick` | 5-15 seconds | 3-4 | Fast brainstorming, simple questions |
+| `full` | 30-60 seconds | 7-9 | Important decisions, thorough analysis |
+| `vote` | 15-30 seconds | 4-5 | Ranking options, tie-breaking |
+
+*Times vary based on model selection, query complexity, and API response times.*
+
+### Factors Affecting Performance
+
+1. **Model selection**: Fast models (Haiku, GPT-4o-mini) respond in 2-5s; premium models (Opus, GPT-4) take 5-15s
+2. **Query length**: Longer queries = longer processing time
+3. **Provider latency**: Some providers have faster APIs than others
+4. **Parallel execution**: Stage 1 runs all members in parallel; Stage 2 runs sequentially
+
+### Optimizing for Speed
+
+```yaml
+# Fast configuration (~10s for full mode)
+council:
+  members:
+    - provider: anthropic
+      model: claude-3-5-haiku-latest
+    - provider: openai
+      model: gpt-4o-mini
+  chairman:
+    provider: anthropic
+    model: claude-3-5-haiku-latest
+
+cost_optimization:
+  use_fast_models_for_review: true
+```
+
+### When Speed Matters
+
+- Use `quick` mode for time-sensitive decisions
+- Reduce council to 2 members
+- Choose the fastest models available
+- Consider if you really need the council (Claude alone is often faster)
+
+---
+
 ## Output Format
 
 The council outputs Markdown for easy reading:

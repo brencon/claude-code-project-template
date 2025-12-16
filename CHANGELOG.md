@@ -7,6 +7,25 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.4.0] - 2025-12-16
+
+### Added
+- **PDF Semantic Decomposition Tool** - Transform large PDFs into organized markdown knowledge bases
+  - `scripts/pdf-parser/` - Core parsing tool with three-phase processing:
+    1. Chunk Extraction - Splits PDFs into ~2000 token chunks, extracts images
+    2. Semantic Analysis - LLM reads chunks sequentially, proposes folder/file structure
+    3. Content Organization - LLM writes organized markdown with images
+  - `/parse-pdf` slash command for easy invocation
+  - Support for Anthropic and OpenAI providers
+  - Automatic semantic organization by topic
+  - Image extraction with markdown embedding
+  - Table extraction as markdown tables
+  - Source PDF metadata in output files
+- Updated `docs/references/.gitkeep` with PDF parsing instructions
+- PDF parser troubleshooting in `docs/GETTING_STARTED.md`
+
+## [1.3.0] - 2025-12-16
+
 ### Added
 - **Agentic Solutions Documentation** - Comprehensive guide for building AI agents
   - `docs/AGENTIC_GUIDE.md` - Patterns for sub-agents, skills, long-running agents
@@ -93,7 +112,25 @@ No breaking changes. New features are additive:
 - Use `/health` to check your configuration
 - Check `examples/` for tech stack-specific CLAUDE.md templates
 
-[Unreleased]: https://github.com/brencon/claude-code-project-template/compare/v1.2.0...HEAD
+### From 1.2.0 to 1.3.0
+
+No breaking changes. New agentic documentation is additive:
+
+- Read `docs/AGENTIC_GUIDE.md` for building AI agents
+- Use `/agent-plan` to design agentic workflows
+- See `scripts/agent-examples/` for working code
+
+### From 1.3.0 to 1.4.0
+
+No breaking changes. New PDF parsing feature is additive:
+
+1. Install dependencies: `pip install -r scripts/pdf-parser/requirements.txt`
+2. Set `ANTHROPIC_API_KEY` or `OPENAI_API_KEY` in `.env`
+3. Use `/parse-pdf <path>` to transform large PDFs into organized markdown
+
+[Unreleased]: https://github.com/brencon/claude-code-project-template/compare/v1.4.0...HEAD
+[1.4.0]: https://github.com/brencon/claude-code-project-template/compare/v1.3.0...v1.4.0
+[1.3.0]: https://github.com/brencon/claude-code-project-template/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/brencon/claude-code-project-template/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/brencon/claude-code-project-template/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/brencon/claude-code-project-template/releases/tag/v1.0.0

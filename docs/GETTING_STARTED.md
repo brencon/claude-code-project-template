@@ -252,6 +252,7 @@ Use this checklist when setting up a new project:
 - [ ] Add MCP servers for your integrations
 - [ ] Create custom sub-agents for specialized tasks
 - [ ] Install skills (front-end design, etc.)
+- [ ] Set up PDF parser for large reference documents
 
 ---
 
@@ -529,6 +530,27 @@ Use the Brainstorm → Plan → Execute workflow:
 3. Check you're in the project root directory
 4. Verify bash/PowerShell is available
 5. Run manually step-by-step if script fails
+
+### PDF Parser Not Working
+
+**Symptoms:** `/parse-pdf` fails or produces errors.
+
+**Solutions:**
+1. Install dependencies:
+   ```bash
+   pip install -r scripts/pdf-parser/requirements.txt
+   ```
+2. Verify API key is set in `.env`:
+   ```bash
+   grep "ANTHROPIC_API_KEY\|OPENAI_API_KEY" .env
+   ```
+3. Check the PDF exists and is readable
+4. For large PDFs, ensure sufficient disk space for temp files
+5. Try with `--provider openai` if Anthropic fails
+6. Run directly for detailed errors:
+   ```bash
+   python scripts/pdf-parser/parse_pdf.py your-file.pdf
+   ```
 
 ### Performance Issues
 

@@ -111,6 +111,19 @@ temp/
 # pnpm-lock.yaml
 
 # -------------------------------
+# PDF Parser
+# -------------------------------
+# Temp directories created during PDF processing
+pdf_parser_*/
+
+# Original PDFs in references (optional - uncomment if you want to gitignore them)
+# Large PDFs should use git-lfs or be stored externally
+# docs/references/**/*.pdf
+
+# PDF parser local config (if customized)
+scripts/pdf-parser/config.yaml
+
+# -------------------------------
 # Project Specific
 # -------------------------------
 # Add project-specific ignores below this line

@@ -380,3 +380,77 @@ This template supports building **agentic AI solutions**—systems that autonomo
 - **Error Recovery**: Always run tests first, rollback on failure
 
 See `docs/AGENTIC_GUIDE.md` for comprehensive documentation.
+
+---
+
+## PDF Reference Parser (Optional)
+
+This template includes a **PDF Semantic Decomposition Tool** that transforms large PDF documents into organized markdown knowledge bases that Claude Code can easily reference.
+
+### When to Use
+
+- Large specification documents (API specs, technical manuals)
+- Research papers or whitepapers
+- Any PDF too large for Claude Code to read directly
+- Documents you want to version control as markdown
+
+### How to Invoke
+
+**Slash command**:
+```
+/parse-pdf docs/references/api-spec.pdf
+```
+
+**Direct CLI**:
+```bash
+python scripts/pdf-parser/parse_pdf.py document.pdf
+```
+
+**With options**:
+```bash
+python scripts/pdf-parser/parse_pdf.py document.pdf --output docs/references/custom-name
+```
+
+### Setup Required
+
+1. Set API key in `.env`:
+   - `ANTHROPIC_API_KEY` (preferred)
+   - `OPENAI_API_KEY` (fallback)
+
+2. Install dependencies:
+   ```bash
+   pip install -r scripts/pdf-parser/requirements.txt
+   ```
+
+### How It Works
+
+The tool processes PDFs in three phases:
+
+1. **Chunk Extraction**: Splits PDF into ~2000 token chunks, extracts images/tables
+2. **Semantic Analysis**: LLM reads chunks sequentially, proposes folder/file organization
+3. **Content Organization**: LLM writes organized markdown with proper formatting and images
+
+### Output Structure
+
+```
+docs/references/api-spec/
+├── _index.md                    # Overview and navigation
+├── 01-introduction/
+│   ├── overview.md
+│   └── images/
+├── 02-authentication/
+│   ├── oauth2-flow.md
+│   └── images/
+└── ...
+```
+
+### Referencing Parsed Content
+
+After parsing, reference the content in this file:
+```markdown
+## Additional Context Files
+
+- For API specification, see: @docs/references/api-spec/_index.md
+```
+
+See `scripts/pdf-parser/config.example.yaml` for configuration options.

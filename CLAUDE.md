@@ -241,10 +241,14 @@ Document things that might trip up Claude or new developers.
 <!--
 Reference other documentation that Claude should read when relevant.
 Use @ syntax to include files dynamically.
+
+Example references (uncomment and modify as needed):
+- For API documentation, see: @docs/api.md
+- For database schema, see: @docs/schema.md
+- For component library, see: @docs/components.md
 -->
 
-For API documentation, see: @docs/api.md
-For database schema, see: @docs/schema.md
+<!-- Add your project-specific documentation references here -->
 
 ---
 

@@ -11,9 +11,19 @@ A comprehensive, best-practice template for AI-assisted software development wit
    rm -rf .git && git init
    ```
 
-2. **Customize CLAUDE.md** - Update project overview, commands, and conventions
+2. **Run the initialization script** (optional but recommended):
+   ```bash
+   # Linux/macOS
+   ./init-project.sh
 
-3. **Start Claude Code**
+   # Windows PowerShell
+   .\init-project.ps1
+   ```
+   This will guide you through selecting a tech stack template, configuring your project name, and optionally setting up the LLM Council.
+
+3. **Or manually customize CLAUDE.md** - Update project overview, commands, and conventions. See [examples/](examples/) for tech stack templates.
+
+4. **Start Claude Code**
    ```bash
    claude
    ```
@@ -34,7 +44,8 @@ A comprehensive, best-practice template for AI-assisted software development wit
 │   │   ├── review.md         # /review - Code review checklist
 │   │   ├── test.md           # /test - Generate tests
 │   │   ├── refactor.md       # /refactor - Safe refactoring
-│   │   └── commit.md         # /commit - Structured commits
+│   │   ├── commit.md         # /commit - Structured commits
+│   │   └── health.md         # /health - Project health check
 │   ├── settings.json          # Project settings (version controlled)
 │   ├── settings.example.json  # Example settings with hooks
 │   └── settings.local.json    # Local settings (gitignored)
@@ -51,6 +62,12 @@ A comprehensive, best-practice template for AI-assisted software development wit
 │   └── LLM_COUNCIL_GUIDE.md   # Multi-model advisory board
 ├── scripts/
 │   └── llm-council/           # LLM Council (optional)
+├── examples/                  # Example CLAUDE.md for different tech stacks
+│   ├── typescript-react/      # React + TypeScript frontend
+│   ├── python-fastapi/        # Python + FastAPI backend
+│   └── node-express/          # Node.js + Express backend
+├── init-project.sh            # Setup script (Linux/macOS)
+├── init-project.ps1           # Setup script (Windows)
 ├── CLAUDE.md                  # Primary instructions for Claude
 ├── .env.example               # Environment variable template
 ├── .gitignore                 # Comprehensive gitignore
@@ -68,6 +85,7 @@ A comprehensive, best-practice template for AI-assisted software development wit
 | `/test [target]` | Generate comprehensive tests |
 | `/refactor [target]` | Safe, test-verified refactoring |
 | `/commit` | Create well-structured commits |
+| `/health` | Check project setup and configuration |
 | `/council [question]` | Consult LLM Council for decisions (optional) |
 | `/council-config` | Check LLM Council configuration |
 

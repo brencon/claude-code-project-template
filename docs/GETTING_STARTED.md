@@ -10,6 +10,7 @@
 - [Customization Checklist](#customization-checklist)
 - [Syncing Upstream Updates](#syncing-upstream-updates)
 - [First Claude Code Session](#first-claude-code-session)
+- [Troubleshooting](#troubleshooting)
 
 ---
 
@@ -368,29 +369,177 @@ Use the Brainstorm → Plan → Execute workflow:
 
 ## Troubleshooting
 
+### Claude Doesn't See My Files
+
+**Symptoms:** Claude says it can't find files or doesn't know about your project structure.
+
+**Solutions:**
+1. Verify you're in the project root: `pwd`
+2. Check CLAUDE.md exists: `ls CLAUDE.md`
+3. Restart Claude Code: exit and run `claude` again
+4. Check if files are gitignored - Claude may skip ignored files
+5. Try explicitly mentioning the file path: "Look at src/components/Button.tsx"
+
 ### Claude Doesn't See CLAUDE.md
 
-- Verify you're in the project root: `pwd`
-- Check file exists: `ls CLAUDE.md`
-- Restart Claude Code: exit and run `claude` again
+**Symptoms:** Claude doesn't follow your project conventions or commands.
+
+**Solutions:**
+- Verify you're in the project root directory
+- Check file exists and has correct name (case-sensitive): `ls CLAUDE.md`
+- Ensure file isn't empty: `cat CLAUDE.md | head -20`
+- Restart Claude Code session
 
 ### Permissions Keep Prompting
 
-- Review `.claude/settings.json`
-- Add frequently-used commands to the allow list
-- Use Shift+Tab for auto-accept mode during development
+**Symptoms:** Claude asks for permission on every command, even common ones.
+
+**Solutions:**
+1. Review `.claude/settings.json` and add patterns:
+   ```json
+   {
+     "permissions": {
+       "allow": [
+         "Bash(npm test:*)",
+         "Bash(npm run:*)",
+         "Bash(git status:*)",
+         "Bash(git diff:*)"
+       ]
+     }
+   }
+   ```
+2. Use wildcard patterns: `"Bash(npm:*)"` allows all npm commands
+3. Use Shift+Tab during development to auto-accept
+4. Restart Claude Code after changing settings.json
 
 ### Slash Commands Not Working
 
-- Check `.claude/commands/` directory exists
-- Verify `.md` extension on command files
-- Commands are case-sensitive
+**Symptoms:** `/command` doesn't do anything or shows "command not found".
+
+**Solutions:**
+1. Check `.claude/commands/` directory exists
+2. Verify command file has `.md` extension: `command.md`
+3. Commands are case-sensitive: `/Plan` ≠ `/plan`
+4. Check file permissions: files must be readable
+5. Verify markdown format is correct (title, instructions)
+6. Run `/health` to diagnose configuration
+
+### Context Getting Too Long
+
+**Symptoms:** Claude seems confused, forgets earlier conversation, or responses slow down.
+
+**Solutions:**
+1. Start a new session for unrelated tasks
+2. Use `/compact` to summarize and compress context
+3. Be specific in requests - avoid "fix everything"
+4. Break large tasks into smaller sessions
+5. Use the Task tool for complex searches (Claude does this automatically)
+
+### Claude Makes Incorrect Changes
+
+**Symptoms:** Claude edits the wrong file or makes unintended modifications.
+
+**Solutions:**
+1. Always specify file paths explicitly
+2. Use `/plan` before major changes to review approach
+3. Keep git commits small and frequent for easy rollback
+4. Review diffs before accepting: `git diff`
+5. Add clear instructions in CLAUDE.md about file organization
+
+### LLM Council Not Working
+
+**Symptoms:** `/council` returns errors or says it's not configured.
+
+**Solutions:**
+1. Run `/council-config` to diagnose issues
+2. Check `scripts/llm-council/config.yaml` exists (copy from `.example.yaml`)
+3. Verify API keys in `.env`:
+   ```bash
+   # Check keys are set (don't show values)
+   grep -c "API_KEY" .env
+   ```
+4. Ensure at least 2 providers have valid keys
+5. Install dependencies: `pip install -r scripts/llm-council/requirements.txt`
+6. Check Python is available: `python --version` or `python3 --version`
+
+### Hooks Not Running
+
+**Symptoms:** PostToolUse or PreToolUse hooks don't execute.
+
+**Solutions:**
+1. Verify hook syntax in `.claude/settings.json`:
+   ```json
+   {
+     "hooks": {
+       "PostToolUse": [
+         {
+           "matcher": "Edit",
+           "hooks": [{ "type": "command", "command": "echo 'Hook ran'" }]
+         }
+       ]
+     }
+   }
+   ```
+2. Test the command manually to ensure it works
+3. Check matcher pattern matches the tool (Edit, Write, Bash)
+4. Restart Claude Code after changing hooks
+5. Check for JSON syntax errors in settings file
+
+### Git Operations Failing
+
+**Symptoms:** Claude can't commit, push, or perform git operations.
+
+**Solutions:**
+1. Check git is configured: `git config --list`
+2. Verify you're in a git repository: `git status`
+3. Check remote is set: `git remote -v`
+4. For push issues, verify authentication (SSH key or token)
+5. Add git commands to permissions:
+   ```json
+   "Bash(git:*)"
+   ```
 
 ### Upstream Sync Conflicts
 
-- Use `git status` to see conflicting files
-- Keep your customizations, take upstream's documentation updates
-- When in doubt, cherry-pick specific files instead of merging all
+**Symptoms:** Merge conflicts when pulling template updates.
+
+**Solutions:**
+1. Use `git status` to see conflicting files
+2. Keep your CLAUDE.md - don't overwrite project-specific config
+3. Cherry-pick specific files instead of merging all:
+   ```bash
+   git checkout upstream/main -- docs/BEST_PRACTICES.md
+   ```
+4. For complex conflicts, create a new branch:
+   ```bash
+   git checkout -b sync-upstream
+   git merge upstream/main
+   # Resolve conflicts
+   git checkout main
+   git merge sync-upstream
+   ```
+
+### Init Script Fails
+
+**Symptoms:** `init-project.sh` or `init-project.ps1` errors.
+
+**Solutions:**
+1. **Linux/macOS:** Make executable: `chmod +x init-project.sh`
+2. **Windows:** Run PowerShell as Administrator if needed
+3. Check you're in the project root directory
+4. Verify bash/PowerShell is available
+5. Run manually step-by-step if script fails
+
+### Performance Issues
+
+**Symptoms:** Claude responses are slow or time out.
+
+**Solutions:**
+1. Check your internet connection
+2. Large files slow down context - be specific about what to read
+3. Use Haiku model for simple tasks (faster and cheaper)
+4. Break complex tasks into smaller requests
+5. Clear conversation and start fresh for new topics
 
 ---
 

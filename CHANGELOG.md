@@ -8,6 +8,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **Agentic Solutions Documentation** - Comprehensive guide for building AI agents
+  - `docs/AGENTIC_GUIDE.md` - Patterns for sub-agents, skills, long-running agents
+  - `docs/AGENT_SDK_QUICKSTART.md` - Getting started with Claude Agent SDK
+  - `/agent-plan` command for designing agentic workflows
+  - `scripts/agent-examples/` - Working autonomous task agent example
+  - `examples/agentic-claude-md/` - CLAUDE.md template optimized for agents
+- Based on Anthropic's official patterns:
+  - [Effective Harnesses for Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+  - [Claude Agent SDK](https://docs.anthropic.com/en/docs/claude-code/sdk)
+  - [Autonomous Coding Quickstart](https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding)
+
+## [1.2.0] - 2025-12-16
+
+### Added
 - Interactive initialization scripts (`init-project.sh`, `init-project.ps1`) for guided project setup
 - `/health` command for diagnosing project configuration
 - Example CLAUDE.md templates for common tech stacks:
@@ -79,6 +93,7 @@ No breaking changes. New features are additive:
 - Use `/health` to check your configuration
 - Check `examples/` for tech stack-specific CLAUDE.md templates
 
-[Unreleased]: https://github.com/brencon/claude-code-project-template/compare/v1.1.0...HEAD
+[Unreleased]: https://github.com/brencon/claude-code-project-template/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/brencon/claude-code-project-template/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/brencon/claude-code-project-template/compare/v1.0.0...v1.1.0
 [1.0.0]: https://github.com/brencon/claude-code-project-template/releases/tag/v1.0.0

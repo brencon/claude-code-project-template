@@ -45,7 +45,8 @@ A comprehensive, best-practice template for AI-assisted software development wit
 │   │   ├── test.md           # /test - Generate tests
 │   │   ├── refactor.md       # /refactor - Safe refactoring
 │   │   ├── commit.md         # /commit - Structured commits
-│   │   └── health.md         # /health - Project health check
+│   │   ├── health.md         # /health - Project health check
+│   │   └── agent-plan.md     # /agent-plan - Design agentic workflows
 │   ├── settings.json          # Project settings (version controlled)
 │   ├── settings.example.json  # Example settings with hooks
 │   └── settings.local.json    # Local settings (gitignored)
@@ -56,16 +57,20 @@ A comprehensive, best-practice template for AI-assisted software development wit
 │   ├── architecture/          # System design documentation
 │   ├── decisions/             # Architecture Decision Records
 │   ├── references/            # External references and research
+│   ├── AGENTIC_GUIDE.md       # Building agentic AI solutions
+│   ├── AGENT_SDK_QUICKSTART.md # Claude Agent SDK quickstart
 │   ├── BEST_PRACTICES.md      # Claude Code best practices guide
 │   ├── UI_DESIGN_GUIDE.md     # UI/design skill and techniques
 │   ├── SKILLS_GUIDE.md        # Building skills and digital employees
 │   └── LLM_COUNCIL_GUIDE.md   # Multi-model advisory board
 ├── scripts/
-│   └── llm-council/           # LLM Council (optional)
+│   ├── llm-council/           # LLM Council (optional)
+│   └── agent-examples/        # Agentic solution examples
 ├── examples/                  # Example CLAUDE.md for different tech stacks
 │   ├── typescript-react/      # React + TypeScript frontend
 │   ├── python-fastapi/        # Python + FastAPI backend
-│   └── node-express/          # Node.js + Express backend
+│   ├── node-express/          # Node.js + Express backend
+│   └── agentic-claude-md/     # CLAUDE.md optimized for agents
 ├── init-project.sh            # Setup script (Linux/macOS)
 ├── init-project.ps1           # Setup script (Windows)
 ├── CLAUDE.md                  # Primary instructions for Claude
@@ -86,6 +91,7 @@ A comprehensive, best-practice template for AI-assisted software development wit
 | `/refactor [target]` | Safe, test-verified refactoring |
 | `/commit` | Create well-structured commits |
 | `/health` | Check project setup and configuration |
+| `/agent-plan [task]` | Design agentic workflows |
 | `/council [question]` | Consult LLM Council for decisions (optional) |
 | `/council-config` | Check LLM Council configuration |
 
@@ -186,6 +192,33 @@ See [docs/LLM_COUNCIL_GUIDE.md](docs/LLM_COUNCIL_GUIDE.md) for:
 - Three-stage deliberation process
 - Cost optimization strategies
 - Based on [karpathy/llm-council](https://github.com/karpathy/llm-council)
+
+## Agentic Solutions
+
+This template supports building **agentic AI solutions**—systems that autonomously complete complex tasks.
+
+### Agentic Patterns
+
+| Pattern | Use Case | Documentation |
+|---------|----------|---------------|
+| **Sub-Agents** | Delegate complex subtasks | Built-in (Task tool) |
+| **Skills** | Automated workflows | [SKILLS_GUIDE.md](docs/SKILLS_GUIDE.md) |
+| **LLM Council** | Multi-model decisions | [LLM_COUNCIL_GUIDE.md](docs/LLM_COUNCIL_GUIDE.md) |
+| **Long-Running Agents** | Multi-session tasks | [AGENTIC_GUIDE.md](docs/AGENTIC_GUIDE.md) |
+| **Agent SDK** | Programmatic agents | [AGENT_SDK_QUICKSTART.md](docs/AGENT_SDK_QUICKSTART.md) |
+
+### Quick Start
+
+1. Read [docs/AGENTIC_GUIDE.md](docs/AGENTIC_GUIDE.md) for pattern overview
+2. Use `/agent-plan` to design your workflow
+3. See [scripts/agent-examples/](scripts/agent-examples/) for working code
+4. Check [examples/agentic-claude-md/](examples/agentic-claude-md/) for optimized templates
+
+### Resources
+
+- [Anthropic's Research on Long-Running Agents](https://www.anthropic.com/engineering/effective-harnesses-for-long-running-agents)
+- [Claude Agent SDK Documentation](https://docs.anthropic.com/en/docs/claude-code/sdk)
+- [Autonomous Coding Quickstart](https://github.com/anthropics/claude-quickstarts/tree/main/autonomous-coding)
 
 ## Philosophy
 

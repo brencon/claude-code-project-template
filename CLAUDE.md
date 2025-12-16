@@ -341,3 +341,42 @@ I'm torn between these approaches. Can you consult the council?
 - `vote`: Focus on ranking options
 
 See `docs/LLM_COUNCIL_GUIDE.md` for detailed documentation.
+
+---
+
+## Agentic Solutions (Optional)
+
+This template supports building **agentic AI solutions**—systems that autonomously complete complex tasks across multiple sessions.
+
+### Agentic Patterns
+
+| Pattern | Use Case | Documentation |
+|---------|----------|---------------|
+| **Sub-Agents** | Delegate complex subtasks | Built-in (Task tool) |
+| **Skills** | Automated workflows | `docs/SKILLS_GUIDE.md` |
+| **LLM Council** | Multi-model decisions | `docs/LLM_COUNCIL_GUIDE.md` |
+| **Long-Running Agents** | Multi-session tasks | `docs/AGENTIC_GUIDE.md` |
+| **Agent SDK** | Programmatic agents | `docs/AGENT_SDK_QUICKSTART.md` |
+
+### When to Use Agentic Patterns
+
+- **Multi-step tasks** spanning hours or days
+- **Complex decisions** benefiting from multiple perspectives
+- **Automated workflows** requiring consistency
+- **Production systems** needing programmatic control
+
+### Quick Start
+
+1. Read `docs/AGENTIC_GUIDE.md` for pattern overview
+2. Use `/agent-plan` to design your workflow
+3. See `scripts/agent-examples/` for working code
+4. Check `examples/agentic-claude-md/` for optimized templates
+
+### Key Concepts
+
+- **State Management**: Use files (`progress.txt`, `feature_list.json`) + git commits
+- **Security**: Allowlist commands, sandbox filesystem, validate with hooks
+- **Session Continuity**: Resume via session IDs, checkpoint with git
+- **Error Recovery**: Always run tests first, rollback on failure
+
+See `docs/AGENTIC_GUIDE.md` for comprehensive documentation.

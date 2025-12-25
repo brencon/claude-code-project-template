@@ -1,0 +1,228 @@
+# GitHub Actions: Cost Analysis on Pull Requests
+#
+# This workflow runs the CFO cost analysis script on every PR and posts
+# a comment with the cost impact analysis.
+
+name: Cost Impact Analysis
+
+on:
+  pull_request:
+    branches: [main, develop]
+    types: [opened, synchronize, reopened]
+
+jobs:
+  analyze-costs:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write  # Needed to post comments
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Full history for comparison
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          # CFO scripts have no external dependencies
+          echo "No dependencies to install"
+
+      - name: Analyze current branch costs
+        id: current
+        run: |
+          python .claude/skills/cfo/scripts/analyze_costs.py \
+            --project-root . \
+            --format json \
+            --output current-costs.json
+
+          CURRENT_COST=$(python -c "import json; print(json.load(open('current-costs.json'))['total_estimated_cost'])")
+          echo "current_cost=$CURRENT_COST" >> $GITHUB_OUTPUT
+
+      - name: Analyze base branch costs
+        id: base
+        run: |
+          git checkout ${{ github.base_ref }}
+
+          python .claude/skills/cfo/scripts/analyze_costs.py \
+            --project-root . \
+            --format json \
+            --output base-costs.json
+
+          BASE_COST=$(python -c "import json; print(json.load(open('base-costs.json'))['total_estimated_cost'])")
+          echo "base_cost=$BASE_COST" >> $GITHUB_OUTPUT
+
+          git checkout -
+
+      - name: Calculate cost impact
+        id: impact
+        run: |
+          python << 'EOF'
+          import json
+          import os
+
+          with open('current-costs.json') as f:
+              current = json.load(f)
+
+          with open('base-costs.json') as f:
+              base = json.load(f)
+
+          current_cost = current['total_estimated_cost']
+          base_cost = base['total_estimated_cost']
+          diff = current_cost - base_cost
+          pct = (diff / base_cost * 100) if base_cost > 0 else 0
+
+          # Detect new services
+          current_services = {(s['provider'], s['service']) for s in current['services']}
+          base_services = {(s['provider'], s['service']) for s in base['services']}
+          new_services = current_services - base_services
+          removed_services = base_services - current_services
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as f:
+              f.write(f"diff={diff:.2f}\n")
+              f.write(f"pct={pct:.1f}\n")
+              f.write(f"new_count={len(new_services)}\n")
+              f.write(f"removed_count={len(removed_services)}\n")
+
+          # Save for comment
+          with open('impact.json', 'w') as f:
+              json.dump({
+                  'current_cost': current_cost,
+                  'base_cost': base_cost,
+                  'diff': diff,
+                  'pct': pct,
+                  'new_services': [f"{p}: {s}" for p, s in sorted(new_services)],
+                  'removed_services': [f"{p}: {s}" for p, s in sorted(removed_services)]
+              }, f, indent=2)
+          EOF
+
+      - name: Generate cost report
+        run: |
+          python .claude/skills/cfo/scripts/analyze_costs.py \
+            --project-root . \
+            --format markdown \
+            --output cost-report.md
+
+      - name: Create PR comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const impact = JSON.parse(fs.readFileSync('impact.json', 'utf8'));
+            const report = fs.readFileSync('cost-report.md', 'utf8');
+
+            // Determine emoji based on impact
+            let emoji = '📊';
+            let status = 'Unchanged';
+
+            if (impact.diff > 0) {
+              if (impact.pct > 20) {
+                emoji = '🔴';
+                status = 'Significant Increase';
+              } else if (impact.pct > 10) {
+                emoji = '🟡';
+                status = 'Moderate Increase';
+              } else {
+                emoji = '🟢';
+                status = 'Minor Increase';
+              }
+            } else if (impact.diff < 0) {
+              emoji = '✅';
+              status = 'Cost Reduction';
+            }
+
+            // Build comment
+            let comment = `## ${emoji} Cloud Cost Impact Analysis\n\n`;
+            comment += `**Status**: ${status}\n\n`;
+            comment += `| Metric | Value |\n`;
+            comment += `|--------|-------|\n`;
+            comment += `| **Base Cost** | $${impact.base_cost.toFixed(2)}/month |\n`;
+            comment += `| **New Cost** | $${impact.current_cost.toFixed(2)}/month |\n`;
+            comment += `| **Change** | $${impact.diff.toFixed(2)}/month (${impact.pct > 0 ? '+' : ''}${impact.pct.toFixed(1)}%) |\n\n`;
+
+            if (impact.new_services.length > 0) {
+              comment += `### 🆕 New Services Detected\n\n`;
+              for (const svc of impact.new_services) {
+                comment += `- ${svc}\n`;
+              }
+              comment += `\n`;
+            }
+
+            if (impact.removed_services.length > 0) {
+              comment += `### ✂️ Services Removed\n\n`;
+              for (const svc of impact.removed_services) {
+                comment += `- ${svc}\n`;
+              }
+              comment += `\n`;
+            }
+
+            // Add warning if significant increase
+            if (impact.pct > 20) {
+              comment += `### ⚠️ Significant Cost Increase Detected\n\n`;
+              comment += `This PR increases infrastructure costs by ${impact.pct.toFixed(1)}%.\n`;
+              comment += `Please review the changes and consider:\n`;
+              comment += `- Are these new services necessary?\n`;
+              comment += `- Can they be optimized?\n`;
+              comment += `- Are there cheaper alternatives?\n\n`;
+            }
+
+            // Collapse detailed report
+            comment += `<details>\n<summary>📋 Detailed Cost Report</summary>\n\n`;
+            comment += report;
+            comment += `\n</details>\n\n`;
+
+            comment += `---\n`;
+            comment += `*💡 Run \`/cfo\` for detailed analysis and optimization recommendations*`;
+
+            // Post comment
+            const {data: comments} = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            // Update existing comment or create new one
+            const botComment = comments.find(c =>
+              c.user.login === 'github-actions[bot]' &&
+              c.body.includes('Cloud Cost Impact Analysis')
+            );
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: comment
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: comment
+              });
+            }
+
+      - name: Fail if costs increase significantly
+        if: steps.impact.outputs.pct > 50
+        run: |
+          echo "::error::Cost increase of ${{ steps.impact.outputs.pct }}% exceeds threshold (50%)"
+          echo "This PR adds significant infrastructure costs."
+          echo "Please review and optimize before merging."
+          exit 1
+
+      - name: Upload cost artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: cost-analysis
+          path: |
+            current-costs.json
+            base-costs.json
+            cost-report.md
+            impact.json
+          retention-days: 30

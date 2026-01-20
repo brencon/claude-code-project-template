@@ -4,15 +4,15 @@
 $ErrorActionPreference = "Stop"
 
 # Colors
-function Write-Step { param($msg) Write-Host "`n▶ $msg" -ForegroundColor Green }
-function Write-Info { param($msg) Write-Host "  ℹ $msg" -ForegroundColor Cyan }
-function Write-Warn { param($msg) Write-Host "  ⚠ $msg" -ForegroundColor Yellow }
-function Write-Success { param($msg) Write-Host "  ✓ $msg" -ForegroundColor Green }
+function Write-Step { param($msg) Write-Host "`n> $msg" -ForegroundColor Green }
+function Write-Info { param($msg) Write-Host "  i $msg" -ForegroundColor Cyan }
+function Write-Warn { param($msg) Write-Host "  ! $msg" -ForegroundColor Yellow }
+function Write-Success { param($msg) Write-Host "  + $msg" -ForegroundColor Green }
 
 Write-Host ""
-Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Blue
-Write-Host "║       Claude Code Project Template - Initialization          ║" -ForegroundColor Blue
-Write-Host "╚══════════════════════════════════════════════════════════════╝" -ForegroundColor Blue
+Write-Host "================================================================" -ForegroundColor Blue
+Write-Host "       Claude Code Project Template - Initialization           " -ForegroundColor Blue
+Write-Host "================================================================" -ForegroundColor Blue
 Write-Host ""
 
 # Check if we're in the right directory
@@ -25,21 +25,21 @@ if (-not (Test-Path "CLAUDE.md")) {
 Write-Step "Project Setup"
 Write-Host ""
 $PROJECT_NAME = Read-Host "  Enter your project name"
-$PROJECT_DESC = Read-Host "  Brief description (1 sentence)"
+$PROJECT_DESC = Read-Host '  Brief description (1 sentence)'
 
 # Step 2: Tech Stack Selection
 Write-Step "Tech Stack"
 Write-Host ""
 Write-Host "  Available templates:"
-Write-Host "    1) TypeScript + React (frontend)"
-Write-Host "    2) Python + FastAPI (backend)"
-Write-Host "    3) Node.js + Express (backend)"
-Write-Host "    4) Custom (keep template placeholders)"
+Write-Host '    1) TypeScript + React (frontend)'
+Write-Host '    2) Python + FastAPI (backend)'
+Write-Host '    3) Node.js + Express (backend)'
+Write-Host '    4) Custom (keep template placeholders)'
 Write-Host ""
 $STACK_CHOICE = Read-Host "  Select template [1-4]"
 
 # Step 3: LLM Council Setup
-Write-Step "LLM Council (Optional)"
+Write-Step 'LLM Council (Optional)'
 Write-Host ""
 $SETUP_COUNCIL = Read-Host "  Set up LLM Council for multi-model consultation? [y/N]"
 
@@ -119,7 +119,7 @@ if ($SETUP_COUNCIL -match '^[Yy]$') {
     }
 
     Write-Host ""
-    Write-Info "Configure API keys in .env (at least 2 providers required):"
+    Write-Info 'Configure API keys in .env (at least 2 providers required):'
     Write-Info "  - ANTHROPIC_API_KEY"
     Write-Info "  - OPENAI_API_KEY"
     Write-Info "  - GOOGLE_AI_API_KEY"
@@ -141,9 +141,9 @@ if (Test-Path ".git") {
 
 # Step 8: Summary
 Write-Host ""
-Write-Host "╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Green
-Write-Host "║                    Setup Complete!                            ║" -ForegroundColor Green
-Write-Host "╚══════════════════════════════════════════════════════════════╝" -ForegroundColor Green
+Write-Host "================================================================" -ForegroundColor Green
+Write-Host "                    Setup Complete!                             " -ForegroundColor Green
+Write-Host "================================================================" -ForegroundColor Green
 Write-Host ""
 
 Write-Host "Next steps:"

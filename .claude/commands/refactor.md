@@ -9,34 +9,44 @@ Refactor the following while preserving behavior: $ARGUMENTS
 3. **Follow Patterns**: Align with existing codebase conventions
 4. **Improve Readability**: Make code more understandable
 5. **Reduce Complexity**: Simplify where possible
+6. **DRY**: Don't Repeat Yourself - eliminate duplication
 
 ## Before Starting
 
-- Ensure tests exist for the code being refactored
-- If no tests exist, write them first
-- Run tests to establish baseline
+- Run existing tests to establish baseline
+- Check current code coverage
+- If coverage is low for code being refactored, write tests first
 
 ## Refactoring Steps
 
-1. **Analyze**: Identify code smells and improvement opportunities
-2. **Plan**: List specific changes to make
-3. **Execute**: Make changes incrementally
-4. **Verify**: Run tests after each change
-5. **Review**: Ensure code is cleaner without behavior changes
+1. **Analyze**: Identify code smells, duplication, and low coverage
+2. **Test First**: Write tests for untested code to capture current behavior
+3. **Plan**: List specific structural changes to make
+4. **Execute**: Make changes incrementally
+5. **Verify**: Run tests after each change
+6. **Review**: Ensure code is cleaner and coverage improved
 
-## Common Improvements
+## Structural Improvements
 
-- Extract methods for better readability
+- Extract duplicate code into shared functions (DRY)
+- Introduce modularity - break large functions/classes into smaller units
+- Move imports to top of files
 - Rename variables/functions for clarity
-- Remove dead code
 - Reduce nesting and complexity
+- Remove dead code
 - Apply appropriate design patterns
 - Improve type safety
+
+## Test Coverage Improvements
+
+- Add tests for any code being refactored that lacks coverage
+- Ensure extracted functions have dedicated tests
+- Target meaningful coverage, not just line coverage
 
 ## Output
 
 Provide:
-- Summary of changes made
+- Summary of structural changes made
+- New tests added and coverage improvement
 - Before/after comparison for significant changes
-- Confirmation that tests still pass
-- Any follow-up refactoring suggestions
+- Confirmation that all tests pass
